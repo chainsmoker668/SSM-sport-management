@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.young.mapper.StudentsMapper">
+    <insert id="addStu" parameterType="Students">
+        insert into students (stuId, stuName, stuGrade, stuClass, stuSport)
+        values (#{stuId}, #{stuName}, #{stuGrade}, #{stuClass}, #{stuSport});
+    </insert>
+    <delete id="deleteStuById" parameterType="int">
+        delete
+        from students
+        where stuId = #{stuId};
+    </delete>
+    <update id="updateStu" parameterType="Students">
+        update students
+        set `stuName`  =#{stuName},
+            `stuGrade`=#{stuGrade},
+            `stuClass`=#{stuClass},
+            `stuSport`=#{stuSport},
+            `stuState`= #{stuState},
+            `stuBy`=#{stuBy},
+            `stuReason`=#{stuReason}
+        where `stuId` = #{stuId};
+    </update>
+
+    <update id="sourceByAdm" parameterType="Students">
+        update students
+        set `stuName`  =#{stuName},
+            `stuGrade`=#{stuGrade},
+            `stuClass`=#{stuClass},
+            `stuSport`=#{stuSport},
+            `stuScore`=#{stuScore},
+            `stuBy`=#{stuBy},
+            `stuReason`=#{stuReason}
+        where `stuId` = #{stuId};
+    </update>
+    <select id="queryStuById" resultType="Students">
+        select *
+        from students
+        where stuId = #{stuId}
+    </select>
+    <select id="queryAllStuState1" resultType="Students">
+        select *
+        from students
+        where stuState = "通过"
+    </select>
+    <select id="queryAllStuState0" resultType="Students">
+        select *
+        from students
+        where stuState = "未审核"
+    </select>
+    <select id="queryAllStu" parameterType="String" resultType="Students">
+        select *
+        from students
+    </select>
+    <update id="corretStu" parameterType="Students">
+        update students
+        set `stuName`  =#{stuName},
+            `stuGrade`=#{stuGrade},
+            `stuClass`=#{stuClass},
+            `stuSport`=#{stuSport},
+            `stuScore`=#{stuScore},
+            `stuState`=#{stuState},
+            `stuBy`=#{stuBy},
+            `stuReason`=#{stuReason}
+        where `stuId` = #{stuId};
+    </update>
+
+    <select id="sportcount" resultType="Students">
+        select stuSport, count(*) as num
+        from students
+        where stuState = '通过'
+        group by stuSport
+    </select>
+
+    <select id="queryStuByName" parameterType="Students" resultType="Students">
+        select *
+        from students
+        where stuName like CONCAT('%', #{stuName}, '%')
+    </select>
+
+    <select id="queryStu0ByName" parameterType="Students" resultType="Students">
+        select *
+        from students
+        where stuName like CONCAT('%', #{stuName}, '%')
+          and stuState = "未审核"
+    </select>
+
+    <select id="queryStu1BySport" parameterType="Students" resultType="Students">
+        select *
+        from students
+        where stuSport like CONCAT('%', #{stuSport}, '%')
+          and stuState = "通过"
+    </select>
+
+    <select id="queryStu1ByName" parameterType="Students" resultType="Students">
+        select *
+        from students
+        where stuName like CONCAT('%', #{stuName}, '%')
+          and stuState = "通过"
+    </select>
+
+</mapper>
